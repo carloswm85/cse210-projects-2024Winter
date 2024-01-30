@@ -42,8 +42,6 @@ class Program
                     System.Console.WriteLine("Something went wrong.");
                     break;
             }
-
-
         } while (running);
     }
 }

@@ -28,6 +28,10 @@ Behaviors:
 - ShowPrompt() : void
 ```
 
+# Extra Requirements
+
+- Read all files stored in the journal folder location.
+
 # Unused Elements
 
 ```cs
@@ -52,9 +56,3 @@ Behaviors:
 * Save() : void
 * Display() : void
 ```
-
-# Extra
-
-- Read all files stored in the journal folder location.
-- `Report on what you have done to exceed requirements by adding a description of it in a comment in the Program.cs file.`
-

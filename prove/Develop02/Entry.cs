@@ -6,6 +6,9 @@ public class Entry
 
 	public void Display()
 	{
-		System.Console.WriteLine("");
+		System.Console.WriteLine($"Date: {_date}");
+		System.Console.WriteLine($"Prompt: {_prompt}");
+		System.Console.WriteLine($"Response: {_response}");
+		System.Console.WriteLine();
 	}
 }

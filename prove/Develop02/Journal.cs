@@ -22,10 +22,7 @@ public class Journal
 		foreach (var entry in _entries)
 		{
 			System.Console.WriteLine($"Nº {entriesCount++}");
-			System.Console.WriteLine($"Date: {entry._date}");
-			System.Console.WriteLine($"Prompt: {entry._prompt}");
-			System.Console.WriteLine($"Response: {entry._response}");
-			System.Console.WriteLine();
+			entry.Display();
 		}
 	}
 
