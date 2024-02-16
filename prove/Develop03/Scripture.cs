@@ -7,19 +7,7 @@ public class Scripture
 	private Reference _reference;
 	private List<Word> _content;
 	private int _visibleWordsCount;
-
-	public Scripture(){
-		_reference = new Reference();
-		_content = new List<Word>();
-		_visibleWordsCount = 0;
-	}
-	public Scripture(Reference reference, string content)
-	{
-		_reference = reference;
-		var list = new List<string> { content };
-		_content = GenerateWordList(list);
-		_visibleWordsCount = _content.Where(e => e.IsVisible() == true).Count();
-	}
+	
 	public Scripture(Reference reference, List<string> content)
 	{
 		_reference = reference;
