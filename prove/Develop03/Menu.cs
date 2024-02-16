@@ -9,7 +9,6 @@ public class Menu
 	public Menu()
 	{
 		_running = true;
-		_options = new MenuOptions();
 	}
 
 	public bool IsRunning()
@@ -19,11 +18,11 @@ public class Menu
 
 	public int WordsToHide()
 	{
-		return _options.amountWords;
+		return _options.AmountWords;
 	}
 	public int SelectedVerses()
 	{
-		return _options.amountVerses;
+		return _options.AmountVerses;
 	}
 
 	public bool ContinuePrompt(bool visibleWords)
@@ -88,7 +87,6 @@ public class Menu
 			}
 		}
 
-		_options.amountWords = wordsToHide;
-		_options.amountVerses = versesToShow;
+		_options = new MenuOptions(wordsToHide, versesToShow);
 	}
 }
