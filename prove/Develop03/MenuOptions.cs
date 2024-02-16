@@ -1,5 +1,7 @@
 
 public class MenuOptions
 {
-	public int amount;
+	public int amountWords;
+	public int amountVerses;
+
 }

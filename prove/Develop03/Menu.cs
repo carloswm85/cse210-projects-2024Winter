@@ -19,7 +19,11 @@ public class Menu
 
 	public int WordsToHide()
 	{
-		return _options.amount;
+		return _options.amountWords;
+	}
+	public int SelectedVerses()
+	{
+		return _options.amountVerses;
 	}
 
 	public bool ContinuePrompt(bool visibleWords)
@@ -60,6 +64,18 @@ public class Menu
 
 	internal void SetUp()
 	{
+		System.Console.WriteLine("Do you want to try one or two verses?");
+		int versesToShow = 3;
+
+		while (versesToShow > 2)
+		{
+			versesToShow = Convert.ToInt32(Console.ReadLine());
+			if (versesToShow > 2)
+			{
+				System.Console.WriteLine("Invalid number. Try again.");
+			}
+		}
+
 		System.Console.WriteLine("How many words do you want to hide? (Max is 4)");
 		int wordsToHide = 5;
 
@@ -72,6 +88,7 @@ public class Menu
 			}
 		}
 
-		_options.amount = wordsToHide;
+		_options.amountWords = wordsToHide;
+		_options.amountVerses = versesToShow;
 	}
 }
