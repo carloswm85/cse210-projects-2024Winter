@@ -1,0 +1,13 @@
+<mxfile host="65bd71144e">
+    <diagram id="SEznHzWf4oslyoBA8Bir" name="Page-1">
+        <mxGraphModel dx="893" dy="428" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="1. Provide guidance and structure to user in activities.&lt;br&gt;2. For example: Breathing activity, Reflection activity, Listing activity.&lt;br&gt;3. Additionally: Keep track of time and frequency they spend in this activities, and give them gentle prompts and reminders.&amp;nbsp;" style="shape=note;strokeWidth=2;fontSize=14;size=20;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#666600;" vertex="1" parent="1">
+                    <mxGeometry x="21" y="60" width="340" height="130" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
