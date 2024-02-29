@@ -8,8 +8,8 @@ class Program
         // Console.WriteLine("Hello Develop04 World!");
         var activities = new List<Activity>() {
             new ActivityBreathing(),
-            new ActivityListing(),
             new ActivityReflection(),
+            new ActivityListing(),
         };
 
         Activity activity;

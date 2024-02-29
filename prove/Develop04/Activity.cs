@@ -8,7 +8,7 @@ public class Activity
 	protected string _description;
 	protected int _duration;
 	DateTime _activityEnd;
-	private bool _running = true;
+	private bool _firstRun = false;
 	private List<string> _animationSpinner = new List<string> { "|", "/", "-", "\\" };
 
 
@@ -26,17 +26,20 @@ public class Activity
 
 	public bool IsRunning()
 	{
+		if (_firstRun) {
+			_firstRun = false;
+			return true;
+		}
 		return DateTime.Now < _activityEnd;
 	}
-	public void IsRunning(bool isRunning)
+	public void IsFirstRun(bool firstRun)
 	{
-		_running = isRunning;
+		_firstRun = firstRun;
 	}
 	private void SetDuration(int duration)
 	{
 		_duration = duration;
-		_activityEnd = DateTime.Now.AddSeconds(_duration);
-		IsRunning(true);
+		IsFirstRun(true);
 	}
 
 	internal virtual void Describe()
@@ -56,6 +59,7 @@ public class Activity
 	}
 	public virtual void Start()
 	{
+		_activityEnd = DateTime.Now.AddSeconds(_duration);
 		System.Console.WriteLine();
 		System.Console.WriteLine($"> This activity will last approximately {_duration} seconds.");
 		System.Console.Write(">> Get ready... ");
@@ -123,6 +127,4 @@ public enum TimerMode
 {
 	Spinner, // 0
 	Seconds, // 1
-	Minutes, // 2
-	Hours, // 3
 }

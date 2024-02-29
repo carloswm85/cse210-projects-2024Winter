@@ -71,7 +71,7 @@ public class ActivityReflection : Activity
 				break;
 			case TextType.Question:
 				int questionIndex = _random.Next(_questions.Count);
-				System.Console.Write("> " + _questions[questionIndex]);
+				System.Console.Write("> " + _questions[questionIndex] + " ");
 				break;
 			default:
 				System.Console.WriteLine("Something went wrong.");
