@@ -7,7 +7,7 @@ public class Activity
 	protected string _name;
 	protected string _description;
 	protected int _duration;
-	DateTime _activityEnd;
+	private DateTime _activityEnd;
 	private bool _firstRun = false;
 	private List<string> _animationSpinner = new List<string> { "|", "/", "-", "\\" };
 	private List<string> _prompts = new List<string>()

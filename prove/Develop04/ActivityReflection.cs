@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 
 public class ActivityReflection : Activity
 {
-
 	public ActivityReflection()
 	{
 		Name = "Reflection";
