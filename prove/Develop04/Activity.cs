@@ -47,7 +47,7 @@ public class Activity
 	internal void SetDuration()
 	{
 		System.Console.WriteLine();
-		System.Console.Write(">> How long, in seconds, would you like for your session? ");
+		System.Console.Write(">> How long, in seconds, would you like for your session (suggested: 60 secs)1? ");
 		int duration = Convert.ToInt32(Console.ReadLine());
 		System.Console.WriteLine($"> You have selected: {duration} seconds");
 		SetDuration(duration);
@@ -60,8 +60,8 @@ public class Activity
 		ShowTimer(5, TimerMode.Seconds);
 		System.Console.WriteLine("Start - " + DateTime.Now.ToString("HH:mm:ss"));
 		System.Console.WriteLine();
-
 	}
+	
 	internal void Pause()
 	{
 		System.Console.WriteLine();

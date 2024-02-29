@@ -18,7 +18,8 @@ public class ActivityBreathing : Activity
 			ShowTimer(5, TimerMode.Seconds);
 			System.Console.Write("Now breathe out... ");
 			ShowTimer(5, TimerMode.Seconds);
-			Pause();
+			System.Console.WriteLine();
+			// Pause();
 		}
 		
 		base.End();
