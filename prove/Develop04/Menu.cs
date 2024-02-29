@@ -44,11 +44,12 @@ public class Menu
 		System.Console.WriteLine("> Select a choice from the menu:");
 		_selectedOption = Convert.ToInt32(Console.ReadLine());
 
-		while(_selectedOption < 0 || _selectedOption > _activities.Count) {
+		while(_selectedOption <= 0 || _selectedOption > _activities.Count + 1) {
 			System.Console.WriteLine(">> Wrong selection. Try again.");
+			_selectedOption = Convert.ToInt32(Console.ReadLine());
 		}
 
-		if (_selectedOption == 4)
+		if (_selectedOption == _activities.Count + 1)
 		{
 			IsRunning(false);
 			System.Console.WriteLine(">> Program ended.");
@@ -62,5 +63,4 @@ public class Menu
 		_selectedOption = _selectedOption - 1;
 		return _activities[_selectedOption];	
 	}
-
 }

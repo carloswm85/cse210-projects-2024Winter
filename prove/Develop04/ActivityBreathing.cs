@@ -2,7 +2,6 @@ using System.Data;
 
 public class ActivityBreathing : Activity
 {
-	private List<string> _animation = new List<string> { "|", "/", "-", "\\" };
 	public ActivityBreathing()
 	{
 		Name = "Breathing";
@@ -19,7 +18,6 @@ public class ActivityBreathing : Activity
 			System.Console.Write("Now breathe out... ");
 			ShowTimer(5, TimerMode.Seconds);
 			System.Console.WriteLine();
-			// Pause();
 		}
 		
 		base.End();

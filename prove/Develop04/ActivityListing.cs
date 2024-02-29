@@ -11,5 +11,16 @@ public class ActivityListing : Activity
 	{
 		base.Start();
 
+		while (IsRunning())
+		{
+			System.Console.Write("Listing");
+			// ShowTimer(5, TimerMode.Seconds);
+			// System.Console.Write("Now breathe out... ");
+			// ShowTimer(5, TimerMode.Seconds);
+			// System.Console.WriteLine();
+			// Pause();
+		}
+
+		base.End();
 	}
 }

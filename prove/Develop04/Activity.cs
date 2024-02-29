@@ -1,5 +1,7 @@
 
 
+using System.Data.Common;
+
 public class Activity
 {
 	protected string _name;
@@ -47,7 +49,7 @@ public class Activity
 	internal void SetDuration()
 	{
 		System.Console.WriteLine();
-		System.Console.Write(">> How long, in seconds, would you like for your session (suggested: 60 secs)1? ");
+		System.Console.Write(">> How long, in seconds, would you like for your session (suggested: 60 secs)? ");
 		int duration = Convert.ToInt32(Console.ReadLine());
 		System.Console.WriteLine($"> You have selected: {duration} seconds");
 		SetDuration(duration);
@@ -55,13 +57,13 @@ public class Activity
 	public virtual void Start()
 	{
 		System.Console.WriteLine();
-		System.Console.WriteLine($"This activity will last approximately {_duration} seconds.");
+		System.Console.WriteLine($"> This activity will last approximately {_duration} seconds.");
 		System.Console.Write(">> Get ready... ");
 		ShowTimer(5, TimerMode.Seconds);
 		System.Console.WriteLine("Start - " + DateTime.Now.ToString("HH:mm:ss"));
 		System.Console.WriteLine();
 	}
-	
+
 	internal void Pause()
 	{
 		System.Console.WriteLine();
@@ -72,6 +74,7 @@ public class Activity
 	public void ShowTimer(int duration, TimerMode mode)
 	{
 		DateTime timerDuration = DateTime.Now.AddSeconds(duration);
+		
 		switch (mode)
 		{
 			case TimerMode.Spinner:
@@ -88,14 +91,15 @@ public class Activity
 			case TimerMode.Seconds:
 				while (DateTime.Now < timerDuration)
 				{
-					for (int j = 5; j > 0; j--)
+					for (int j = duration; j > 0; j--)
 					{
 						System.Console.Write(j);
 						Thread.Sleep(1000);
-						System.Console.Write("\b \b");
+						if (j > 9) System.Console.Write("\b\b  \b");
+						else System.Console.Write("\b \b");
 					}
 				}
-				System.Console.WriteLine("X");
+				System.Console.WriteLine("\\");
 				break;
 			default:
 				System.Console.WriteLine("Something went wrong.");
@@ -109,11 +113,16 @@ public class Activity
 		System.Console.WriteLine($"You have completed {_duration} seconds of {Name} Activity.");
 		System.Console.WriteLine("End - " + DateTime.Now.ToString("HH:mm:ss"));
 		System.Console.WriteLine();
+		System.Console.Write(">> Going back to the menu... ");
+		ShowTimer(6, TimerMode.Spinner);
+		Console.Clear();
 	}
 }
 
 public enum TimerMode
 {
-	Spinner,
-	Seconds
+	Spinner, // 0
+	Seconds, // 1
+	Minutes, // 2
+	Hours, // 3
 }
