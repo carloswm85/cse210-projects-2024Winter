@@ -10,6 +10,26 @@ public class Activity
 	DateTime _activityEnd;
 	private bool _firstRun = false;
 	private List<string> _animationSpinner = new List<string> { "|", "/", "-", "\\" };
+	private List<string> _prompts = new List<string>()
+		{
+			"Think of a time when you stood up for someone else.",
+			"Think of a time when you did something really difficult.",
+			"Think of a time when you helped someone in need.",
+			"Think of a time when you did something truly selfless.",
+		};
+	private List<string> _questions = new List<string>()
+		{
+			"Why was this experience meaningful to you?",
+			"Have you ever done anything like this before?",
+			"How did you get started?",
+			"How did you feel when it was complete?",
+			"What made this time different than other times when you were not as successful?",
+			"What is your favorite thing about this experience?",
+			"What could you learn from this experience that applies to other situations?",
+			"What did you learn about yourself through this experience?",
+			"How can you keep this experience in mind in the future?",
+		};
+	private Random _random = new Random();
 
 
 	public string Name
@@ -26,7 +46,8 @@ public class Activity
 
 	public bool IsRunning()
 	{
-		if (_firstRun) {
+		if (_firstRun)
+		{
 			_firstRun = false;
 			return true;
 		}
@@ -78,7 +99,7 @@ public class Activity
 	public void ShowTimer(int duration, TimerMode mode)
 	{
 		DateTime timerDuration = DateTime.Now.AddSeconds(duration);
-		
+
 		switch (mode)
 		{
 			case TimerMode.Spinner:
@@ -104,6 +125,26 @@ public class Activity
 					}
 				}
 				System.Console.WriteLine("\\");
+				break;
+			default:
+				System.Console.WriteLine("Something went wrong.");
+				break;
+		}
+	}
+
+	protected void DisplayText(TextType textType)
+	{
+		switch (textType)
+		{
+			case TextType.Prompt:
+				System.Console.Write("\t~ ");
+				int promptIndex = _random.Next(_prompts.Count);
+				System.Console.Write(_prompts[promptIndex]);
+				System.Console.WriteLine(" ~");
+				break;
+			case TextType.Question:
+				int questionIndex = _random.Next(_questions.Count);
+				System.Console.Write("> " + _questions[questionIndex] + " ");
 				break;
 			default:
 				System.Console.WriteLine("Something went wrong.");
