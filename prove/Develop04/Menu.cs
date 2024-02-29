@@ -1,6 +1,7 @@
 public class Menu
 {
 	private bool _running;
+	private int _selectedOption;
 	private List<Activity> _activities;
 
 	// Constructor
@@ -10,64 +11,56 @@ public class Menu
 		_activities = activities;
 	}
 
-	public bool IsRunning(bool isRunning = true)
+	public bool IsRunning()
+	{
+		return _running;
+	}
+	public void IsRunning(bool isRunning)
 	{
 		_running = isRunning;
-		return _running;
 	}
 
 	// Methods
 	public void ShowMenu()
 	{
-		int count = 0;
-		System.Console.WriteLine("Menu Options:");
-		
+		int count = 1;
+		System.Console.WriteLine("> Menu Options:");
+
 		foreach (var activity in _activities)
 		{
-			count++;
 			System.Console.WriteLine(
 				$"\t{count}. Start {activity.Name} activity"
 			);
+			count++;
 		}
+		System.Console.WriteLine(
+			$"\t{count}. Quit"
+		);
 	}
 
-	internal void SelectActivity()
+	public Activity SelectActivity()
 	{
-		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		System.Console.WriteLine("> Select a choice from the menu:");
+		_selectedOption = Convert.ToInt32(Console.ReadLine());
 
+		while(_selectedOption < 0 || _selectedOption > _activities.Count) {
+			System.Console.WriteLine(">> Wrong selection. Try again.");
+		}
 
+		if (_selectedOption == 4)
+		{
+			IsRunning(false);
+			System.Console.WriteLine(">> Program ended.");
+			return null;
+		}
+
+		Console.Clear();
+		System.Console.WriteLine($"> Selection was: {_selectedOption}");
+
+		// ADJUST SELECTION TO REAL LIST INDEXING
+		_selectedOption = _selectedOption - 1;
+		return _activities[_selectedOption];	
 	}
-
-
-	public void PromptDuration()
-	{
-		throw new NotImplementedException("This method is not implemented yet.");
-	}
-
-	public void End()
-	{
-		throw new NotImplementedException("This method is not implemented yet.");
-	}
-
-	public void Pause()
-	{
-		throw new NotImplementedException("This method is not implemented yet.");
-	}
-
-	public void Complete()
-	{
-		throw new NotImplementedException("This method is not implemented yet.");
-	}
-
-	public void Finish()
-	{
-		throw new NotImplementedException("This method is not implemented yet.");
-	}
-
-	public void ShowSpinner()
-	{
-		throw new NotImplementedException("This method is not implemented yet.");
-	}
-
 
 }

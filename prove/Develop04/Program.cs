@@ -7,19 +7,28 @@ class Program
     {
         // Console.WriteLine("Hello Develop04 World!");
         var activities = new List<Activity>() {
-            new ActivityBreathing(10),
-            new ActivityListing(10),
-            new ActivityReflection(10),
+            new ActivityBreathing(),
+            new ActivityListing(),
+            new ActivityReflection(),
         };
+
+        Activity activity;
         var menu = new Menu(activities);
+        Console.Clear();
 
         while (menu.IsRunning())
         {
             menu.ShowMenu();
-            menu.SelectActivity();
+            activity = menu.SelectActivity();
 
-            
+            if (activity != null) {
+                activity.Describe();
+                activity.SetDuration();
+                
+                while(activity.IsRunning()) {
+                    activity.Start();
+                }
+            }
         }
-
     }
 }
