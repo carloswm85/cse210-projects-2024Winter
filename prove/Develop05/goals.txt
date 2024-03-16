@@ -1,0 +1,4 @@
+0
+SimpleGoal:simple,goal,50,False,05/27/25
+EternalGoal:eternal,goal,50,0
+ChecklistGoal:check,goal,55,500,6,0
