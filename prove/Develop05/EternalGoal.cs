@@ -19,6 +19,12 @@ public class EternalGoal : Goal
     {
         GoalType = GoalTypes.EternalGoal;
     }
+    public EternalGoal(string[] content)
+    : base(content[0], content[1], Convert.ToInt32(content[2]))
+    {
+        GoalType = GoalTypes.EternalGoal;
+        _completedTimes = Convert.ToInt32(content[3]);
+    }
 
     // Public Methods
     public override void SetUp()

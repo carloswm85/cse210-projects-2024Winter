@@ -9,6 +9,14 @@ public class SimpleGoal : Goal
 		GoalType = GoalTypes.SimpleGoal;
 	}
 
+	public SimpleGoal(string[] content)
+	: base(content[0], content[1], Convert.ToInt32(content[2]))
+	{
+		GoalType = GoalTypes.SimpleGoal;
+		Completed = Convert.ToBoolean(content[3]);
+		_deadLine = content[4];
+	}
+
 	public override void SetUp()
 	{
 		System.Console.Write("What is the deadline you want for this goal? (Use format: mm/dd/yy) ");

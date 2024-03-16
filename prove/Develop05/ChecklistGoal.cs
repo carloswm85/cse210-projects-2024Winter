@@ -30,6 +30,14 @@ public class ChecklistGoal : Goal
 	{
 		GoalType = GoalTypes.ChecklistGoal;
 	}
+	public ChecklistGoal(string[] content)
+		: base(content[0], content[1], Convert.ToInt32(content[2]))
+	{
+		GoalType = GoalTypes.ChecklistGoal;
+		_bonusPoints = Convert.ToInt32(content[3]);
+		_targetChecks = Convert.ToInt32(content[4]);
+		_currentChecks = Convert.ToInt32(content[5]);
+	}
 
 	// Public Methods
 	public override void SetUp()

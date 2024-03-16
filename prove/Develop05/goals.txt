@@ -1,4 +1,4 @@
 0
-SimpleGoal:simple,goal,50,False,05/27/25
-EternalGoal:eternal,goal,50,0
-ChecklistGoal:check,goal,55,500,6,0
+SimpleGoal:My Simple Goal,This is a simple goal,235,False,03/15/24
+EternalGoal:My Eternal Goal,This is an eternal goal,394,0
+ChecklistGoal:My Checklist Goal,This is a checklist goal,44,500,7,0

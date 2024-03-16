@@ -17,17 +17,9 @@ public class FileManager
 	}
 
 	// Class Methods	
-	public void Load(string fileName)
+	public string[] Load(string fileName)
 	{
-		string[] lines = System.IO.File.ReadAllLines(fileName);
-
-		foreach (string line in lines)
-		{
-			string[] parts = line.Split(",");
-
-			string firstName = parts[0];
-			string lastName = parts[1];
-		}
+		return System.IO.File.ReadAllLines(fileName);		
 	}
 	public void Save(string fileName, List<string> list, string header)
 	{

@@ -10,7 +10,6 @@ public class Menu
 	private int _selectedOption;
 	private bool _isRunning;
 	private List<string> _options;
-	private string[] _content;
 	private string _fileName;
 
 	// Public Properties
@@ -144,23 +143,41 @@ public class Menu
 		System.Console.WriteLine("> RecordEvent");
 	}
 
-	private int LoadGoals()
+	private void LoadGoals()
 	{
-		if (_fileName == null) return 0;
-		System.Console.Write("What is the filename for the goal file?");
+		Console.Clear();
+		System.Console.Write("What is the filename for the goal file? ");
 		_fileName = Console.ReadLine();
-		_fileManager.Load(_fileName);
-		_content = _fileManager.Content;
+		var content = _fileManager.Load(_fileName);
+		_points = Convert.ToInt32(content[0]);
+		content = content.Skip(1).ToArray();
 
-		foreach (string line in _content)
+		foreach (string line in content)
 		{
 			string[] parts = line.Split(":");
+			string header = parts[0];
+			string body = parts[1];
+			Goal goal = new Goal();
 
-			string goalType = parts[0];
-			string goalContent = parts[1];
+			string[] bodyContent = body.Split(",");
+
+			switch ((GoalTypes)Enum.Parse(typeof(GoalTypes), header))
+			{
+				case GoalTypes.SimpleGoal:
+					goal = new SimpleGoal(bodyContent);
+					break;
+				case GoalTypes.EternalGoal:
+					goal = new EternalGoal(bodyContent);
+					break;
+				case GoalTypes.ChecklistGoal:
+					goal = new ChecklistGoal(bodyContent);
+					break;
+				default:
+					throw new Exception("Something went wrong.");
+			}
+			_goalList.Add(goal);
+
 		}
-
-		return 1;
 	}
 
 	private void SaveGoals()
@@ -234,7 +251,6 @@ public class Menu
 		var description = System.Console.ReadLine();
 		System.Console.Write("What is the amount of points associated with this goal? ");
 		var basePoints = Convert.ToInt32(Console.ReadLine());
-		var goalType = "";
 		Goal goal = new Goal();
 
 		switch ((GoalTypes)_selectedOption)
