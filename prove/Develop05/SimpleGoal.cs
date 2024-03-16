@@ -8,7 +8,6 @@ public class SimpleGoal : Goal
 	{
 		GoalType = GoalTypes.SimpleGoal;
 	}
-
 	public SimpleGoal(string[] content)
 	: base(content[0], content[1], Convert.ToInt32(content[2]))
 	{
@@ -23,21 +22,34 @@ public class SimpleGoal : Goal
 		_deadLine = Console.ReadLine();
 		base.SetUp();
 	}
-	public override string Describe()
+	public override string Describe(bool fullView)
 	{
-		var stringBuilder = new StringBuilder(base.Describe());
-		var additionalDescription = $" -- Deadline: {_deadLine}";
-		stringBuilder.Append(additionalDescription);
+		var stringBuilder = new StringBuilder(base.Describe(fullView));
+		if (fullView)
+		{
+			var additionalDescription = $" -- Deadline: {_deadLine}";
+			stringBuilder.Append(additionalDescription);
+		}
 		return stringBuilder.ToString();
 	}
 	public override string ToString()
 	{
 		var stringBuilder = new StringBuilder(base.ToString());
-		var isCompleted = _completed.ToString();
+		var isCompleted = Completed.ToString();
 		stringBuilder.Append(",");
 		stringBuilder.Append(isCompleted);
 		stringBuilder.Append(",");
 		stringBuilder.Append(_deadLine);
 		return stringBuilder.ToString();
+	}
+
+	public override int GetPoints()
+	{
+		if (!Completed)
+		{
+			Completed = true;
+			return base.GetPoints();
+		}
+		return 0;
 	}
 }

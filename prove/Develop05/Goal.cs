@@ -49,11 +49,16 @@ public class Goal
 		System.Console.WriteLine(">> Press enter to continue <<");
 		while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 	}
-	public virtual string Describe()
+	public virtual string Describe(bool fullView)
 	{
-		string status = " ";
-		if (Completed) status = "X";
-		return $"[{status}] {Name} ({Description})";
+		if (fullView)
+		{
+			string status = " ";
+			if (Completed) status = "X";
+			if (_type.Equals(GoalTypes.EternalGoal)) status = "-";
+			return $"[{status}] {Name} ({Description})";
+		}
+		return $"{Name}";
 	}
 	public override string ToString()
 	{
@@ -61,4 +66,8 @@ public class Goal
 		return $"{goalType}:{_name},{_description},{_basePoints}";
 	}
 
+	public virtual int GetPoints()
+	{
+		return _basePoints;
+	}
 }

@@ -1,9 +1,9 @@
 using System.ComponentModel;
+using System.Net.Http.Headers;
 
 public class Menu
 {
 	// Private Fields
-	private string _appName;
 	private FileManager _fileManager;
 	private List<Goal> _goalList;
 	private int _points = 0;
@@ -13,54 +13,19 @@ public class Menu
 	private string _fileName;
 
 	// Public Properties
-	public List<Goal> GoalList
-	{
-		get { return _goalList; }
-		set { _goalList = value; }
-	}
-	public string AppName
-	{
-		get { return _appName; }
-		set { _appName = value; }
-	}
-	public FileManager FileManager
-	{
-		get { return _fileManager; }
-		set { _fileManager = value; }
-	}
-	public int Points
-	{
-		get { return _points; }
-		set { _points = value; }
-	}
-	public int SelectedOption
-	{
-		get { return _selectedOption; }
-		set { _selectedOption = value; }
-	}
 	public bool IsRunning
 	{
 		get { return _isRunning; }
 		set { _isRunning = value; }
 	}
-	public string FileName
-	{
-		get { return _fileName; }
-		set { _fileName = value; }
-	}
 
 	// CTORS
 	public Menu(FileManager fileManager)
 	{
-		_appName = "Eternal Quest";
 		_fileManager = fileManager;
 		_isRunning = true;
 		_fileName = null;
-		_goalList = new List<Goal>() {
-			new SimpleGoal("My Simple Goal", "This is a simple goal", 235),
-			new EternalGoal("My Eternal Goal", "This is an eternal goal", 394),
-			new ChecklistGoal("My Checklist Goal", "This is a checklist goal", 44)
-		};
+		_goalList = new List<Goal>();
 		_options = new List<string> {
 			"NULL",
 			"Create New Goal",
@@ -76,14 +41,14 @@ public class Menu
 	internal void DisplayMenu()
 	{
 		Console.Clear();
-		System.Console.WriteLine($"You have {_points} point{(_points == 1 ? "" : "s")}.");
-		System.Console.WriteLine();
+		DisplayPoints(true);
 		System.Console.WriteLine("Menu Options:");
 		for (int i = 1; i < _options.Count; i++)
 		{
 			System.Console.Write($"\t{i}");
 			System.Console.WriteLine($") {_options[i]}");
 		}
+		System.Console.WriteLine();
 		System.Console.Write("Select an option from the menu: ");
 		_selectedOption = Convert.ToInt32(Console.ReadLine());
 
@@ -124,13 +89,35 @@ public class Menu
 		_selectedOption = 0;
 	}
 
+	private void DisplayPoints(bool showLevel = false)
+	{
+		System.Console.WriteLine();
+		System.Console.WriteLine($"You have {_points} point{(_points == 1 ? "" : "s")}.");
+		if (showLevel) {
+			string level = "";
+			if (_points < 100) {
+				level = "Peasant";
+			}
+			if (_points  >= 100) {
+				level = "Apprentice";
+			}
+			if (_points  >= 300) {
+				level = "Knight";
+			}
+			if (_points  >= 500) {
+				level = "King";
+			}
+			System.Console.WriteLine($"Your current level is: {level}");
+		}
+		System.Console.WriteLine();
+	}
+
 	private void ClearGoals()
 	{
 		_goalList.Clear();
 		Console.Clear();
 		System.Console.WriteLine("> All goals have been deleted.");
-		System.Console.WriteLine(">> Press enter to continue <<");
-		while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+		Pause();
 	}
 
 	private void QuitMenu()
@@ -140,7 +127,23 @@ public class Menu
 
 	private void RecordEvent()
 	{
-		System.Console.WriteLine("> RecordEvent");
+		Console.Clear();
+		ListGoals(false);
+		System.Console.Write("Which goal did you accomplish? ");
+		var recordSelection = Convert.ToInt32(Console.ReadLine());
+		Goal selectedGoal = _goalList[recordSelection - 1];
+		int newPoints = selectedGoal.GetPoints();
+		if (newPoints == 0)
+		{
+			System.Console.WriteLine("This goal has been already completed.");
+		}
+		else
+		{
+			_points = _points + newPoints;
+			System.Console.WriteLine($"Congratulations! You have earned {newPoints} points!");
+			System.Console.WriteLine($"Total points: {_points}");
+		}
+		Pause();
 	}
 
 	private void LoadGoals()
@@ -176,7 +179,6 @@ public class Menu
 					throw new Exception("Something went wrong.");
 			}
 			_goalList.Add(goal);
-
 		}
 	}
 
@@ -186,8 +188,7 @@ public class Menu
 		{
 			Console.Clear();
 			System.Console.WriteLine("> There is no goals to save.");
-			System.Console.WriteLine(">> Press enter to continue <<");
-			while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+			Pause();
 			return;
 		}
 
@@ -202,18 +203,22 @@ public class Menu
 
 		_fileManager.Save(_fileName, goalsToFile, _points.ToString());
 		System.Console.WriteLine("Goals have been saved.");
+		Pause();
+	}
+
+	private void Pause()
+	{
 		System.Console.WriteLine(">> Press enter to continue <<");
 		while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 	}
 
-	private void ListGoals()
+	private void ListGoals(bool fullView = true)
 	{
 		if (_goalList.Count == 0)
 		{
 			Console.Clear();
 			System.Console.WriteLine("> The list of goals is empty.");
-			System.Console.WriteLine(">> Press enter to continue <<");
-			while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+			Pause();
 			return;
 		}
 
@@ -222,18 +227,21 @@ public class Menu
 		int count = 1;
 		foreach (Goal goal in _goalList)
 		{
-			var description = goal.Describe();
-			if (goal.Completed)
+			var description = goal.Describe(fullView);
+			if (fullView)
 			{
-				_points += goal.BasePoints;
+				System.Console.WriteLine($"{count++}) {description}");
 			}
-			System.Console.WriteLine($"{count++}) {description}");
+			else
+			{
+				System.Console.WriteLine($"{count++}) {description}");
+			}
 		}
-		System.Console.WriteLine();
-		System.Console.WriteLine($"You have {_points} point{(_points == 1 ? "" : "s")}.");
-		System.Console.WriteLine();
-		System.Console.WriteLine(">> Press enter to continue <<");
-		while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+		DisplayPoints();
+		if (fullView)
+		{
+			Pause();
+		}
 	}
 
 	private Goal CreateGoal()

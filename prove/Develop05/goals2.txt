@@ -1,0 +1,4 @@
+640
+SimpleGoal:This is a simple goal,This is a description,50,True,05/25/25
+EternalGoal:This is an eternal goal,This is the desription of the eternal goal,60,3
+ChecklistGoal:This is a ckecklist goal,This is another desc,70,200,3,3

@@ -7,23 +7,6 @@ public class ChecklistGoal : Goal
 	private int _currentChecks = 0;
 	private int _targetChecks;
 
-	// Public Properties
-	public int BonusPoints
-	{
-		get { return _bonusPoints; }
-		set { _bonusPoints = value; }
-	}
-	public int CurrentChecks
-	{
-		get { return _currentChecks; }
-		set { _currentChecks = value; }
-	}
-	public int TargetCheck
-	{
-		get { return _targetChecks; }
-		set { _targetChecks = value; }
-	}
-
 	// CTOR
 	public ChecklistGoal(string name, string description, int basePoints)
 	: base(name, description, basePoints)
@@ -37,6 +20,9 @@ public class ChecklistGoal : Goal
 		_bonusPoints = Convert.ToInt32(content[3]);
 		_targetChecks = Convert.ToInt32(content[4]);
 		_currentChecks = Convert.ToInt32(content[5]);
+		if (_currentChecks == _targetChecks) {
+			Completed = true;
+		}
 	}
 
 	// Public Methods
@@ -49,11 +35,14 @@ public class ChecklistGoal : Goal
 		base.SetUp();
 	}
 
-	public override string Describe()
+	public override string Describe(bool fullView)
 	{
-		var stringBuilder = new StringBuilder(base.Describe());
-		var additionalDescription = $" -- Currently completed: {_currentChecks}/{_targetChecks}";
-		stringBuilder.Append(additionalDescription);
+		var stringBuilder = new StringBuilder(base.Describe(fullView));
+		if (fullView)
+		{
+			var additionalDescription = $" -- Currently completed: {_currentChecks}/{_targetChecks}";
+			stringBuilder.Append(additionalDescription);
+		}
 		return stringBuilder.ToString();
 	}
 	public override string ToString()
@@ -62,5 +51,19 @@ public class ChecklistGoal : Goal
 		var additionalDescription = $",{_bonusPoints},{_targetChecks},{_currentChecks}";
 		stringBuilder.Append(additionalDescription);
 		return stringBuilder.ToString();
+	}
+
+	public override int GetPoints()
+	{
+		_currentChecks++;
+		if(_currentChecks == _targetChecks) {
+			Completed = true;
+			System.Console.WriteLine($"You have received {_bonusPoints} bonus points.");
+			return base.GetPoints() + _bonusPoints;
+		}
+		if (!Completed){
+			return base.GetPoints();
+		}
+		return 0;
 	}
 }

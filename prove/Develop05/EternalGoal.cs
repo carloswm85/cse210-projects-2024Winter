@@ -6,13 +6,6 @@ public class EternalGoal : Goal
     // Private Fields
     private int _completedTimes;
 
-    // Public Properties
-    public int CompletedTimes
-    {
-        get { return _completedTimes; }
-        set { _completedTimes = value; }
-    }
-
     // CTOR    
     public EternalGoal(string name, string description, int basePoints)
     : base(name, description, basePoints)
@@ -32,11 +25,14 @@ public class EternalGoal : Goal
         base.SetUp();
     }
 
-    public override string Describe()
+    public override string Describe(bool fullView)
     {
-        var stringBuilder = new StringBuilder(base.Describe());
-        var additionalDescription = $" -- Completed times: {_completedTimes}";
-        stringBuilder.Append(additionalDescription);
+        var stringBuilder = new StringBuilder(base.Describe(fullView));
+        if (fullView)
+        {
+            var additionalDescription = $" -- Completed times: {_completedTimes}";
+            stringBuilder.Append(additionalDescription);
+        }
         return stringBuilder.ToString();
     }
     public override string ToString()
@@ -45,5 +41,10 @@ public class EternalGoal : Goal
         var additionalDescription = $",{_completedTimes}";
         stringBuilder.Append(additionalDescription);
         return stringBuilder.ToString();
+    }
+    public override int GetPoints()
+    {
+        _completedTimes++;
+        return base.GetPoints();
     }
 }
