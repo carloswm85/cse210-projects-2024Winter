@@ -29,7 +29,7 @@ class Member : User
 		set { _dueFine = value; }
 	}
 
-	public Member(string firstName, string lastName, MemberType MemberType) : base(firstName, lastName)
+	public Member(string username, string firstName, string lastName, string email, MemberType MemberType) : base(username, firstName, lastName, email)
 	{
 		_memberType = MemberType;
 	}

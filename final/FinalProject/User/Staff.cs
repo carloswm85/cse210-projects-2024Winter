@@ -8,7 +8,7 @@ class Staff : User
 		set { _staffType = value; }
 	}
 
-	public Staff(string firstName, string lastName, StaffType staffType) : base(firstName, lastName)
+	public Staff(string username, string firstName, string lastName, string email, StaffType staffType) : base(username, firstName, lastName, email)
 	{
 		_staffType = staffType;
 	}

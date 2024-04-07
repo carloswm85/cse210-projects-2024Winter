@@ -1,10 +1,13 @@
 
+using System.Runtime.InteropServices;
+
 class LibraryManagementSystem
 {
 
 	private string _name;
 	private int _selectedOption;
 	private List<string> _options;
+	private List<User> _users = new();
 
 
 
@@ -57,7 +60,7 @@ class LibraryManagementSystem
 			"Search user",
 			"Add new resource",
 			"Modify existing resource",
-			"Search resourse catalog",
+			"Search resource catalog",
 			"Quit program",
 		};
 	}
@@ -127,8 +130,120 @@ class LibraryManagementSystem
 
 	private void RegisterUser()
 	{
-		System.Console.WriteLine("RegisterUser");
+		System.Console.WriteLine("> Register a new user.");
+		System.Console.WriteLine();
+		var username = GetUserInput("Enter username: ");
+		var firstName = GetUserInput("Enter your first name: ");
+		var lastName = GetUserInput("Enter your last name: ");
+		var email = GetUserInput("Enter your email address: ");
+		System.Console.WriteLine();
+		var userType = GetUserType("Select user type: ");
 
+		var userTypeDescription = "";
+		switch (userType)
+		{
+			case UserType.Member:
+				var memberType = GetMemberType("Select member type: ");
+				_users.Add(new Member(username, firstName, lastName, email, memberType));
+				userTypeDescription = "member type";
+				break;
+			case UserType.Staff:
+				var staffType = GetStaffType("Select staff type: ");
+				_users.Add(new Staff(username, firstName, lastName, email, staffType));
+				userTypeDescription = "staff type";
+				break;
+			default:
+				throw new Exception("Something went wrong");
+		}
+		System.Console.WriteLine($"> New user created");
+		System.Console.WriteLine();
+		System.Console.WriteLine("User description:");
+
+		// TODO add full description of user data
+		ddd
+		System.Console.WriteLine(_users.Last().ToString());
+	}
+
+	private string GetUserInput(string diplayedText)
+	{
+		System.Console.Write(diplayedText);
+		return Console.ReadLine();
+	}
+
+	private UserType GetUserType(string text)
+	{
+		System.Console.WriteLine($"> {text}");
+		int i = 1;
+		foreach (var userType in Enum.GetValues(typeof(UserType)))
+		{
+			Console.WriteLine($"{i++}) {userType}");
+		}
+		System.Console.Write("Selection: ");
+		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		switch (selection)
+		{
+			case 1:
+				return UserType.Member;
+			case 2:
+				return UserType.Staff;
+			default:
+				throw new Exception("Something went wrong");
+		}
+	}
+	
+	private StaffType GetStaffType(string text)
+	{
+		System.Console.WriteLine($"> {text}");
+		int i = 1;
+		foreach (var staffType in Enum.GetValues(typeof(StaffType)))
+		{
+			Console.WriteLine($"{i++}) {staffType}");
+		}
+		System.Console.Write("Selection: ");
+		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		switch (selection)
+		{
+			case 1:
+				return StaffType.Librarian;
+			case 2:
+				return StaffType.Assistant;
+			case 3:
+				return StaffType.Director;
+			case 4:
+				return StaffType.Volunteer;
+			default:
+				throw new Exception("Something went wrong");
+		}
+	}
+
+	private MemberType GetMemberType(string text)
+	{
+		System.Console.WriteLine($"> {text}");
+		int i = 1;
+		foreach (var memberType in Enum.GetValues(typeof(MemberType)))
+		{
+			Console.WriteLine($"{i++}) {memberType}");
+		}
+		System.Console.Write("Selection: ");
+		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		switch (selection)
+		{
+			case 1:
+				return MemberType.Student;
+			case 2:
+				return MemberType.Educator;
+			case 3:
+				return MemberType.Patron;
+			case 4:
+				return MemberType.Retired;
+			case 5:
+				return MemberType.Children;
+			default:
+				throw new Exception("Something went wrong");
+		}
 	}
 
 	private void SearchUser()

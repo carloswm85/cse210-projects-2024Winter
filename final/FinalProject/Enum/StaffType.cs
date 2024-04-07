@@ -1,7 +1,7 @@
 
 enum StaffType
 {
-	Librarian,
+	Librarian = 1,
 	Assistant,
 	Director,
 	Volunteer

@@ -1,9 +1,8 @@
 enum MemberType
 {
-	Student,
+	Student = 1,
 	Educator,
 	Patron,
 	Retired,
 	Children,
-	Other
 }
