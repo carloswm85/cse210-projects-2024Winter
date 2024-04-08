@@ -24,18 +24,37 @@ class User
 		set { _email = value; }
 	}
 
-	public User(string username, string firstName, string lastName, string email)
+	private string _password = string.Empty;
+	public string Password {
+		get { return _password; }
+		set { _password = value; }
+	}
+
+	protected DateTime _registrationDate;
+	public DateTime RegistrationDate
+	{
+		get { return _registrationDate; }
+		set { _registrationDate = value; }
+	}
+
+	public User(string username, string firstName, string lastName, string email, string password)
 	{
 		_username = username;
 		_firstName = firstName;
 		_lastName = lastName;
 		_email = email;
+		_password = password;
+		_registrationDate = DateTime.Now;
 	}
 
 	public override string ToString()
 	{
-		var line1 = $"\nFull name: {_firstName} {_lastName}\n";
-		var line2 = $"Email: {_email}\n";
-		return line1 + line2;
+		var formattedDate = _registrationDate.ToString("MM/dd/yyyy");
+		var line1 = $"- Full name: {_firstName} {_lastName}\n";
+		var line2 = $"- Email: {_email}\n";
+		var line3 = $"- Registration date: {formattedDate}\n";
+		var passwordSet = _password == "" ? "NO" : "YES";
+		var line4 = $"- Password is set: {passwordSet}\n";
+		return line1 + line2 + line3 + line4;
 	}
 }

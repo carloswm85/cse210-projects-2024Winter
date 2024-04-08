@@ -11,12 +11,6 @@ class Member : User
 		set { _memberType = value; }
 	}
 
-	private DateTime _registrationDate;
-	public DateTime RegistrationDate {
-		get { return _registrationDate; }
-		set { _registrationDate = value; }
-	}
-
 	private List<Guid> _borrowedResources;
 	public List<Guid> BorrowedResources {
 		get { return _borrowedResources; }
@@ -29,13 +23,14 @@ class Member : User
 		set { _dueFine = value; }
 	}
 
-	public Member(string username, string firstName, string lastName, string email, MemberType MemberType) : base(username, firstName, lastName, email)
+	public Member(string username, string firstName, string lastName, string email, string password, MemberType MemberType) : base(username, firstName, lastName, email, password)
 	{
 		_memberType = MemberType;
 	}
 
 	public override string ToString()
 	{
-		return $"Member type: {_memberType} - Registration date: {_registrationDate}";
+		var dataFromBase = base.ToString();
+		return $"{dataFromBase}- Member type: {_memberType}\n";
 	}
 }

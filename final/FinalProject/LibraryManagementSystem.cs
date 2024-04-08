@@ -136,21 +136,19 @@ class LibraryManagementSystem
 		var firstName = GetUserInput("Enter your first name: ");
 		var lastName = GetUserInput("Enter your last name: ");
 		var email = GetUserInput("Enter your email address: ");
+		var password = GetUserInput("Select your user password: ");
 		System.Console.WriteLine();
 		var userType = GetUserType("Select user type: ");
 
-		var userTypeDescription = "";
 		switch (userType)
 		{
 			case UserType.Member:
 				var memberType = GetMemberType("Select member type: ");
-				_users.Add(new Member(username, firstName, lastName, email, memberType));
-				userTypeDescription = "member type";
+				_users.Add(new Member(username, firstName, lastName, email, password, memberType));
 				break;
 			case UserType.Staff:
 				var staffType = GetStaffType("Select staff type: ");
-				_users.Add(new Staff(username, firstName, lastName, email, staffType));
-				userTypeDescription = "staff type";
+				_users.Add(new Staff(username, firstName, lastName, email, password, staffType));
 				break;
 			default:
 				throw new Exception("Something went wrong");
@@ -160,7 +158,6 @@ class LibraryManagementSystem
 		System.Console.WriteLine("User description:");
 
 		// TODO add full description of user data
-		ddd
 		System.Console.WriteLine(_users.Last().ToString());
 	}
 
@@ -188,7 +185,8 @@ class LibraryManagementSystem
 			case 2:
 				return UserType.Staff;
 			default:
-				throw new Exception("Something went wrong");
+				System.Console.WriteLine("No option available. Try again.\n");
+				return GetUserType(text);
 		}
 	}
 	
@@ -214,7 +212,8 @@ class LibraryManagementSystem
 			case 4:
 				return StaffType.Volunteer;
 			default:
-				throw new Exception("Something went wrong");
+				System.Console.WriteLine("No option available. Try again.\n");
+				return GetStaffType(text);
 		}
 	}
 
@@ -242,7 +241,8 @@ class LibraryManagementSystem
 			case 5:
 				return MemberType.Children;
 			default:
-				throw new Exception("Something went wrong");
+				System.Console.WriteLine("No option available. Try again.\n");
+				return GetMemberType(text);
 		}
 	}
 
