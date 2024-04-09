@@ -7,10 +7,9 @@ class LibraryManagementSystem
 	private string _name;
 	private int _selectedOption;
 	private List<string> _options;
-	private List<User> _users = new();
-
-
-
+	private List<User> _users = new() {
+		new Staff("admin", "Administrator", "Library", "admin@library.org", "Admin123", StaffType.Admin)
+	};
 
 	public string Name
 	{
@@ -24,9 +23,6 @@ class LibraryManagementSystem
 		get { return _isRunning; }
 		set { _isRunning = value; }
 	}
-
-
-
 
 	private FileManager _fileManager;
 	public FileManager FileManager
@@ -61,6 +57,7 @@ class LibraryManagementSystem
 			"Add new resource",
 			"Modify existing resource",
 			"Search resource catalog",
+			"Your profile information",
 			"Quit program",
 		};
 	}
@@ -108,6 +105,9 @@ class LibraryManagementSystem
 			case MenuOptions.SearchCatalog:
 				SearchCatalog();
 				break;
+			case MenuOptions.UserProfile:
+				UserProfile();
+				break;
 			case MenuOptions.QuitProgram:
 				QuitProgram();
 				break;
@@ -118,19 +118,52 @@ class LibraryManagementSystem
 		_selectedOption = 0;
 	}
 
+	private void UserProfile()
+	{
+		System.Console.WriteLine("PROFILE INFORMATION\n");
+
+		if(_user != null) {
+			System.Console.WriteLine(_user.ToString());
+			return;
+		}
+		System.Console.WriteLine("> There is no user logged in.");
+		System.Console.WriteLine();
+	}
+
 	public void LogIn()
 	{
-		System.Console.WriteLine("Log in");
+		System.Console.WriteLine("LOG IN\n");
+		var username = GetUserInput("Enter username: ");
+		var password = GetUserInput("Enter password: ");
+		System.Console.WriteLine();
+
+		User user = _users.FirstOrDefault(u => u.Username == username);
+
+		if (user != null)
+		{
+			if (user.Password == password)
+			{
+				_user = user;
+				_user.IsLoggedIn = true;
+				System.Console.WriteLine("You are logged in.");
+				System.Console.WriteLine();
+				return;
+			}
+		}
+
+		System.Console.WriteLine();
+		System.Console.WriteLine("> Invalid credentials.");
+		System.Console.WriteLine();
 	}
 
 	public void LogOut()
 	{
-		System.Console.WriteLine("Log out");
+		System.Console.WriteLine("LOG OUT\n");
 	}
 
 	private void RegisterUser()
 	{
-		System.Console.WriteLine("> Register a new user.");
+		System.Console.WriteLine("REGISTER NEW USER\n");
 		System.Console.WriteLine();
 		var username = GetUserInput("Enter username: ");
 		var firstName = GetUserInput("Enter your first name: ");
@@ -189,7 +222,7 @@ class LibraryManagementSystem
 				return GetUserType(text);
 		}
 	}
-	
+
 	private StaffType GetStaffType(string text)
 	{
 		System.Console.WriteLine($"> {text}");
@@ -248,24 +281,22 @@ class LibraryManagementSystem
 
 	private void SearchUser()
 	{
-		System.Console.WriteLine("SearchUser");
-
+		System.Console.WriteLine("SEARCH USER\n");
 	}
 
 	private void AddResource()
 	{
-		System.Console.WriteLine("AddResource");
-
+		System.Console.WriteLine("ADD RESOURCE\n");
 	}
 
 	private void UpdateResource()
 	{
-		System.Console.WriteLine("UpdateResource");
+		System.Console.WriteLine("UPDATE RESOURCE\n");
 	}
 
 	public void SearchCatalog()
 	{
-		System.Console.WriteLine("Search Catalog");
+		System.Console.WriteLine("SEARCH CATALOG\n");
 	}
 
 	public void Pause()
@@ -273,9 +304,12 @@ class LibraryManagementSystem
 		System.Console.WriteLine(">> Press enter to continue <<");
 		while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 	}
+
 	public void QuitProgram()
 	{
 		_isRunning = false;
 		System.Console.WriteLine("Quitting Library Management System...");
+		System.Console.WriteLine("Good bye.");
+		System.Console.WriteLine();
 	}
 }

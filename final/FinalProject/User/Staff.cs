@@ -16,6 +16,6 @@ class Staff : User
 	public override string ToString()
 	{
 		var dataFromBase = base.ToString();
-		return $"{dataFromBase}- Staff type: {_staffType}";
+		return $"{dataFromBase}- Staff type: {_staffType}\n";
 	}
 }

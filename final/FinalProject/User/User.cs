@@ -37,6 +37,12 @@ class User
 		set { _registrationDate = value; }
 	}
 
+	private bool _isLoggedIn;
+	public bool IsLoggedIn {
+		get { return _isLoggedIn; }
+		set { _isLoggedIn = value; }
+	}
+
 	public User(string username, string firstName, string lastName, string email, string password)
 	{
 		_username = username;
@@ -45,6 +51,7 @@ class User
 		_email = email;
 		_password = password;
 		_registrationDate = DateTime.Now;
+		_isLoggedIn = false;
 	}
 
 	public override string ToString()

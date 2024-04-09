@@ -7,5 +7,6 @@ public enum MenuOptions
 	AddResource,
 	UpdateResource,
 	SearchCatalog,
+	UserProfile,
 	QuitProgram,
 }
