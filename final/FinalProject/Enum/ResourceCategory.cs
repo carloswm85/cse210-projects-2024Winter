@@ -1,8 +1,8 @@
 enum ResourceCategory
 {
-	Fiction,
-	NonFiction,
-	Academic,
-	Literature,
-	Crafting
+	Book = 1,
+	Journal,
+	Newspaper,
+	Illustration,
+	Graphics,
 }

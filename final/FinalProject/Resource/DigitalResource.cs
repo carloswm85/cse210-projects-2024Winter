@@ -20,11 +20,11 @@ class DigitalResource : Resource
 	}
 
 	public DigitalResource(
-		string title,
-		string author,
 		ResourceType resourceType,
 		ResourceCategory resourceCategory,
-		ResourceSubcategory resourceSubcategory
+		ResourceSubcategory resourceSubcategory,
+		string title,
+		string author
 		) : base(
 			resourceType,
 			resourceCategory,
@@ -38,7 +38,8 @@ class DigitalResource : Resource
 
 	public override string ToString()
 	{
-		string informationOne = $"Online: {_isOnline} - Opensource: {_isOpensource} - Paid: {_isPaid}";
-		return informationOne;
+		var dataFromBase = base.ToString();
+		var line1 = $"- Online/Opensource/Paid: {_isOnline}/{_isOpensource}/{_isPaid}";
+		return $"{dataFromBase}{line1}";
 	}
 }

@@ -43,12 +43,14 @@ class PhysicalResource : Resource
 			title, 
 			author)
 	{
+		_isbn = "NN";
 	}
 
 	public override string ToString()
 	{
-		string informationOne = $"ISBN: {_isbn}";
-		string informationTwo = $"Reserved: {_isReserved} - Returned: {_isReturned} - Renewed: {_isRenewed}";
-		return informationOne + "\n" + informationTwo;
+		var dataFromBase = base.ToString();
+		var line1 = $"- ISBN: {_isbn}\n";
+		var line2 = $"- Reserved/Returned/Renewed: {_isReserved}/{_isReturned}/{_isRenewed}";
+		return $"{dataFromBase}{line1}{line2}";
 	}
 }

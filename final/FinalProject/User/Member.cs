@@ -31,6 +31,7 @@ class Member : User
 	public override string ToString()
 	{
 		var dataFromBase = base.ToString();
-		return $"{dataFromBase}- Member type: {_memberType}\n";
+		var line1 = "- Member type: {_memberType}\n";
+		return $"{dataFromBase}{line1}";
 	}
 }

@@ -4,9 +4,7 @@ public enum MenuOptions
 	LogOut,
 	RegisterUser,
 	SearchUser,
-	AddResource,
-	UpdateResource,
-	SearchCatalog,
+	ResourceManager,
 	UserProfile,
 	QuitProgram,
 }

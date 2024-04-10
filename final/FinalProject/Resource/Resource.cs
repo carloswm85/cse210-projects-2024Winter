@@ -73,6 +73,11 @@ class Resource
 
 	public override string ToString()
 	{
-		return $"Type: {_resourceType} - Title: {_title} - Author: {_author}";
+		var line1 = $"- Title: {_title}\n";
+		var line2 = $"- Author: {_author}\n";
+		var line3 = $"- Type: {_resourceType}\n";
+		var line4 = $"- Category: {_resourceCategory}\n";
+		var line5 = $"- Subcategory: {_resourceSubcategory}\n";
+		return line1 + line2 + line3 + line4 + line5;
 	}
 }

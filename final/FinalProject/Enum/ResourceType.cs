@@ -1,9 +1,5 @@
 enum ResourceType
 {
-	Book,
-	Video,
-	Audio,
-	Newspaper,
-	Magazine,
-	Reference
+	Physical = 1,
+	Digital,
 }

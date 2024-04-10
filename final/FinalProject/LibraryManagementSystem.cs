@@ -5,11 +5,11 @@ class LibraryManagementSystem
 {
 
 	private string _name;
-	private int _selectedOption;
-	private List<string> _options;
-	private List<User> _users = new() {
-		new Staff("admin", "Administrator", "Library", "admin@library.org", "Admin123", StaffType.Admin)
-	};
+	private int _selectedMenuOption;
+	private int _selectedSubmenuOption;
+	private List<string> _menuOptions;
+	private List<string> _submenuOptions;
+	private List<User> _users;
 
 	public string Name
 	{
@@ -48,19 +48,33 @@ class LibraryManagementSystem
 	public LibraryManagementSystem(string libraryName)
 	{
 		_name = libraryName;
-		_options = new List<string> {
-			"NULL",
-			"Log in",
-			"Log out",
-			"Register new user",
-			"Search user",
-			"Add new resource",
-			"Modify existing resource",
-			"Search resource catalog",
-			"Your profile information",
-			"Quit program",
+		_menuOptions = new List<string> {
+			"0 INDEX IS NULL",
+			"✅ Log in",
+			"✅ Log out",
+			"✅ Register new user",
+			"✅ Search users",
+			"❌ Resource manager (books, databases, etc.)",
+			"✅ Your profile information",
+			"✅ Quit program",
+		};
+		_submenuOptions = new List<string> {
+			"0 INDEX IS NULL",
+			"✅ Display resource catalog",
+			"✅ Add new resource",
+			"❌ Modify resource (update or delete)",
+			"✅ Go back"
+		};
+		_users = new List<User>() {
+		new Staff("admin", "Library", "Administrator", "admin@library.org", "Admin123", StaffType.Admin)
+		};
+		_resources = new List<Resource>() {
+			new PhysicalResource(ResourceType.Physical, ResourceCategory.Book,ResourceSubcategory.Literature, "The Lord of the Rings", "J. R. R. Tolkien"),
+			new DigitalResource(ResourceType.Digital, ResourceCategory.Book,ResourceSubcategory.Academic, "Another Digital Book", "John D. Doe")
 		};
 	}
+
+	// TODO display users in a table
 
 	internal void Run()
 	{
@@ -72,57 +86,52 @@ class LibraryManagementSystem
 	{
 		Console.Clear();
 		System.Console.WriteLine("Menu Options:");
-		for (int i = 1; i < _options.Count; i++)
+		for (int i = 1; i < _menuOptions.Count; i++)
 		{
 			System.Console.Write($"\t{i}");
-			System.Console.WriteLine($") {_options[i]}");
+			System.Console.WriteLine($") {_menuOptions[i]}");
 		}
 		System.Console.WriteLine();
 		System.Console.Write("Select an option from the menu: ");
-		_selectedOption = Convert.ToInt32(Console.ReadLine());
+		_selectedMenuOption = Convert.ToInt32(Console.ReadLine());
 
 		System.Console.Clear();
-		switch ((MenuOptions)_selectedOption)
+		switch ((MenuOptions)_selectedMenuOption)
 		{
-			case MenuOptions.LogIn:
+			case MenuOptions.LogIn: // 1
 				LogIn();
 				break;
-			case MenuOptions.LogOut:
+			case MenuOptions.LogOut: // 2
 				LogOut();
 				break;
-			case MenuOptions.RegisterUser:
+			case MenuOptions.RegisterUser: // 3
 				RegisterUser();
 				break;
-			case MenuOptions.SearchUser:
+			case MenuOptions.SearchUser: // 4
 				SearchUser();
 				break;
-			case MenuOptions.AddResource:
-				AddResource();
+			case MenuOptions.ResourceManager: // 5
+				ResourceManager();
 				break;
-			case MenuOptions.UpdateResource:
-				UpdateResource();
-				break;
-			case MenuOptions.SearchCatalog:
-				SearchCatalog();
-				break;
-			case MenuOptions.UserProfile:
+			case MenuOptions.UserProfile: // 6
 				UserProfile();
 				break;
-			case MenuOptions.QuitProgram:
+			case MenuOptions.QuitProgram: // 7
 				QuitProgram();
 				break;
 			default:
 				throw new Exception("Something went wrong.");
 		}
 		Pause();
-		_selectedOption = 0;
+		_selectedMenuOption = 0;
 	}
 
 	private void UserProfile()
 	{
 		System.Console.WriteLine("PROFILE INFORMATION\n");
 
-		if(_user != null) {
+		if (_user != null)
+		{
 			System.Console.WriteLine(_user.ToString());
 			return;
 		}
@@ -159,6 +168,16 @@ class LibraryManagementSystem
 	public void LogOut()
 	{
 		System.Console.WriteLine("LOG OUT\n");
+
+		if (_user != null)
+		{
+			_user = null;
+			System.Console.WriteLine("> You have been logged out.");
+			System.Console.WriteLine();
+			return;
+		}
+		System.Console.WriteLine("> There is no user logged in.");
+		System.Console.WriteLine();
 	}
 
 	private void RegisterUser()
@@ -281,22 +300,235 @@ class LibraryManagementSystem
 
 	private void SearchUser()
 	{
-		System.Console.WriteLine("SEARCH USER\n");
+		// string[] headers = { "Username", "Full Name", "User type", "Registered", "Status" };
+
+		var run = true;
+
+		while (run)
+		{
+			Console.Clear();
+			System.Console.WriteLine("USERS LIST\n");
+			var username = GetUserInput("Search by username: ");
+			var user = _users.FirstOrDefault(u => u.Username == username);
+
+			if (user != null)
+			{
+				System.Console.WriteLine("> User found.");
+				System.Console.WriteLine();
+				System.Console.WriteLine(user.ToString());
+			}
+			else
+			{
+				System.Console.WriteLine("User does not exist.");
+				System.Console.WriteLine();
+			}
+
+			var answer = GetUserInput("> Do you want to search again? (Y/N) ");
+			if (answer == "N" || answer == "n")
+			{
+				run = false;
+				Console.Clear();
+				System.Console.WriteLine("> Search cancelled by the user.");
+				System.Console.WriteLine();
+			}
+		}
+	}
+
+	private void ResourceManager()
+	{
+		var run = true;
+
+		while (run)
+		{
+			Console.Clear();
+			System.Console.WriteLine("Resource manager options:");
+
+			for (int i = 1; i < _submenuOptions.Count; i++)
+			{
+				System.Console.Write($"\t{i}");
+				System.Console.WriteLine($") {_submenuOptions[i]}");
+			}
+			System.Console.WriteLine();
+			System.Console.Write("Select an option from the menu: ");
+			_selectedSubmenuOption = Convert.ToInt32(Console.ReadLine());
+
+			System.Console.Clear();
+			switch ((SubmenuOptions)_selectedSubmenuOption)
+			{
+				case SubmenuOptions.DisplayCatalog: // 1
+					DisplayCatalog();
+					break;
+				case SubmenuOptions.AddResource: // 2
+					AddResource();
+					break;
+				case SubmenuOptions.ModifyResource: // 3
+					ModifyResource();
+					break;
+				case SubmenuOptions.GoBack: // 4
+					System.Console.WriteLine("Returning to main menu.");
+					System.Console.WriteLine();
+					return;
+				default:
+					throw new Exception("Something went wrong.");
+			}
+			Pause();
+			_selectedSubmenuOption = 0;
+		}
+	}
+
+	private void ModifyResource()
+	{
+		throw new NotImplementedException();
 	}
 
 	private void AddResource()
 	{
 		System.Console.WriteLine("ADD RESOURCE\n");
+		ResourceType type = GetResourceType("Select resource type: ");
+		ResourceCategory category = GetCategoryType("Select category: ");
+		ResourceSubcategory subcategory = GetSubcategoryType("Select subcategory: ");
+		System.Console.WriteLine("> Provide additional information.");
+		var title = GetUserInput("Title: ");
+		var author = GetUserInput("Author: ");
+
+		switch (type)
+		{
+			case ResourceType.Physical:
+
+				var physical = new PhysicalResource(type, category, subcategory, title, author);
+				if (physical.ResourceCategory == ResourceCategory.Book)
+				{
+					physical.Isbn = GetUserInput("ISBN (example: 978-3-16-148410-0): ");
+				}
+				_resources.Add(physical);
+				break;
+			case ResourceType.Digital:
+				_resources.Add(new DigitalResource(type, category, subcategory, title, author));
+				break;
+			default:
+				throw new Exception("Something went wrong");
+		}
+		System.Console.WriteLine();
+		System.Console.WriteLine($"> New resource created");
+		System.Console.WriteLine();
+		System.Console.WriteLine("Resource description:");
+
+		// TODO add full description of user data
+		System.Console.WriteLine(_resources.Last().ToString());
+		System.Console.WriteLine();
+	}
+
+	private ResourceType GetResourceType(string text)
+	{
+		System.Console.WriteLine($"> {text}");
+		int i = 1;
+		foreach (var userType in Enum.GetValues(typeof(ResourceType)))
+		{
+			Console.WriteLine($"{i++}) {userType}");
+		}
+		System.Console.Write("Selection: ");
+		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		switch (selection)
+		{
+			case 1:
+				return ResourceType.Physical;
+			case 2:
+				return ResourceType.Digital;
+			default:
+				System.Console.WriteLine("No option available. Try again.\n");
+				return GetResourceType(text);
+		}
+	}
+
+	private ResourceCategory GetCategoryType(string text)
+	{
+		System.Console.WriteLine($"> {text}");
+		int i = 1;
+		foreach (var categoryType in Enum.GetValues(typeof(ResourceCategory)))
+		{
+			Console.WriteLine($"{i++}) {categoryType}");
+		}
+		System.Console.Write("Selection: ");
+		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		switch (selection)
+		{
+			case 1:
+				return ResourceCategory.Book;
+			case 2:
+				return ResourceCategory.Journal;
+			case 3:
+				return ResourceCategory.Newspaper;
+			case 4:
+				return ResourceCategory.Illustration;
+			case 5:
+				return ResourceCategory.Graphics;
+			default:
+				System.Console.WriteLine("No option available. Try again.\n");
+				return GetCategoryType(text);
+		}
+	}
+
+
+	private ResourceSubcategory GetSubcategoryType(string text)
+	{
+		System.Console.WriteLine($"> {text}");
+		int i = 1;
+		foreach (var subcategoryType in Enum.GetValues(typeof(ResourceSubcategory)))
+		{
+			Console.WriteLine($"{i++}) {subcategoryType}");
+		}
+		System.Console.Write("Selection: ");
+		int selection = Convert.ToInt32(Console.ReadLine());
+		System.Console.WriteLine();
+		switch (selection)
+		{
+			case 1:
+				return ResourceSubcategory.Academic;
+			case 2:
+				return ResourceSubcategory.Children;
+			case 3:
+				return ResourceSubcategory.Teenagers;
+			case 4:
+				return ResourceSubcategory.News;
+			case 5:
+				return ResourceSubcategory.Government;
+			case 6:
+				return ResourceSubcategory.Science;
+			case 7:
+				return ResourceSubcategory.Primary;
+			case 8:
+				return ResourceSubcategory.Scholar;
+			case 9:
+				return ResourceSubcategory.Literature;
+			default:
+				System.Console.WriteLine("No option available. Try again.\n");
+				return GetSubcategoryType(text);
+		}
 	}
 
 	private void UpdateResource()
 	{
 		System.Console.WriteLine("UPDATE RESOURCE\n");
+
+		System.Console.WriteLine("Options:");
+
+
+
 	}
 
-	public void SearchCatalog()
+	public void DisplayCatalog()
 	{
-		System.Console.WriteLine("SEARCH CATALOG\n");
+		System.Console.WriteLine("DISPLAY CATALOG\n");
+
+		int i = 1;
+		foreach (var resource in _resources)
+		{
+			System.Console.WriteLine($">> Item {i++} <<");
+			System.Console.WriteLine(resource.ToString());
+			System.Console.WriteLine();
+		}
 	}
 
 	public void Pause()

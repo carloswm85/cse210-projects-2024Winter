@@ -1,10 +1,12 @@
 enum ResourceSubcategory
 {
-	Academic,
+	Academic = 1,
 	Children,
 	Teenagers,
 	News,
 	Government,
 	Science,
-	Primary
+	Primary,
+	Scholar,
+	Literature
 }

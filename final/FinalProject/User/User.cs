@@ -57,11 +57,13 @@ class User
 	public override string ToString()
 	{
 		var formattedDate = _registrationDate.ToString("MM/dd/yyyy");
+
+		var line0 = $"- Username: {_username}\n";
 		var line1 = $"- Full name: {_firstName} {_lastName}\n";
 		var line2 = $"- Email: {_email}\n";
 		var line3 = $"- Registration date: {formattedDate}\n";
 		var passwordSet = _password == "" ? "NO" : "YES";
 		var line4 = $"- Password is set: {passwordSet}\n";
-		return line1 + line2 + line3 + line4;
+		return line0 + line1 + line2 + line3 + line4;
 	}
 }
