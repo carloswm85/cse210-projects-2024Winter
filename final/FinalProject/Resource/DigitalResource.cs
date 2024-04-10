@@ -26,17 +26,33 @@ class DigitalResource : Resource
 		string title,
 		string author
 		) : base(
+			title,
+			author,
 			resourceType,
 			resourceCategory,
-			resourceSubcategory,
-			title,
-			author
+			resourceSubcategory
 			)
 	{
 		_isOnline = true;
 		_isOpensource = false;
 		_isPaid = false;
 	}
+
+	public DigitalResource(string[] content)
+: base(
+		content[1],
+		content[2],
+		ResourceType.Digital,
+		(ResourceCategory)Enum.Parse(typeof(ResourceCategory), content[3]),
+		(ResourceSubcategory)Enum.Parse(typeof(ResourceSubcategory), content[4])
+		)
+	{
+		_id = Guid.Parse(content[0]);
+		_isOnline = Convert.ToBoolean(content[5]);
+		_isOpensource = Convert.ToBoolean(content[6]);
+		_isPaid = Convert.ToBoolean(content[7]);
+	}
+
 	public override string ToString()
 	{
 		var dataFromBase = base.ToString();

@@ -31,16 +31,33 @@ class PhysicalResource : Resource
 		string title,
 		string author
 		) : base(
+			title,
+			author,
 			resourceType, 
 			resourceCategory, 
-			resourceSubcategory,
-			title, 
-			author)
+			resourceSubcategory
+			)
 	{
 		_isbn = "NN";
 		_isReserved = false;
 		_isReturned = false;
 		_isRenewed = false;
+	}
+
+	public PhysicalResource(string[] content)
+: base(
+		content[1],
+		content[2],
+		ResourceType.Physical,
+		(ResourceCategory)Enum.Parse(typeof(ResourceCategory), content[3]),
+		(ResourceSubcategory)Enum.Parse(typeof(ResourceSubcategory), content[4])
+		)
+	{
+		_id = Guid.Parse(content[0]);
+		_isbn = content[5];
+		_isReserved = Convert.ToBoolean(content[6]);
+		_isReturned = Convert.ToBoolean(content[7]);
+		_isRenewed = Convert.ToBoolean(content[8]);
 	}
 
 	public override string ToString()

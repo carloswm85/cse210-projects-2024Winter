@@ -5,8 +5,6 @@ public enum MenuOptions
 	RegisterUser,
 	SearchUser,
 	ResourceManager,
-	LoadFile,
-	SaveFile,
 	UserProfile,
 	QuitProgram,
 }

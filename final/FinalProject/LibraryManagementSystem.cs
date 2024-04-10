@@ -39,8 +39,6 @@ class LibraryManagementSystem
 			"Register new user",
 			"Search users",
 			"Resource manager (physical and digital)",
-			"Load from file",
-			"Save to file",
 			"Your profile information",
 			"Quit program",
 		};
@@ -49,6 +47,8 @@ class LibraryManagementSystem
 			"Display resource catalog",
 			"Add new resource",
 			"Modify resource (update or delete)",
+			"Load from file",
+			"Save to file",
 			"Go back to main menu"
 		};
 		_users = new List<User>() {
@@ -104,17 +104,11 @@ class LibraryManagementSystem
 				break;
 			case MenuOptions.ResourceManager: // 5
 				ResourceManager();
-				break;
-			case MenuOptions.LoadFile: // 6
-				LoadFile();
-				break;
-			case MenuOptions.SaveFile: // 7
-				SaveFile();
-				break;
-			case MenuOptions.UserProfile: // 8
+				break;			
+			case MenuOptions.UserProfile: // 6
 				UserProfile();
 				break;
-			case MenuOptions.QuitProgram: // 9
+			case MenuOptions.QuitProgram: // 7
 				QuitProgram();
 				break;
 			default:
@@ -124,6 +118,60 @@ class LibraryManagementSystem
 		_selectedMenuOption = 0;
 	}
 
+
+	private void ResourceManager()
+	{
+		if (_user == null)
+		{
+			System.Console.WriteLine("> There is no user logged in.");
+			System.Console.WriteLine();
+			return;
+		}
+
+		var run = true;
+
+		while (run)
+		{
+			Console.Clear();
+			System.Console.WriteLine("Resource manager options:");
+
+			for (int i = 1; i < _submenuOptions.Count; i++)
+			{
+				System.Console.Write($"\t{i}");
+				System.Console.WriteLine($") {_submenuOptions[i]}");
+			}
+			System.Console.WriteLine();
+			_selectedSubmenuOption = SelectOption("Select an option from the menu:");
+
+			System.Console.Clear();
+			switch ((SubmenuOptions)_selectedSubmenuOption)
+			{
+				case SubmenuOptions.DisplayCatalog: // 1
+					DisplayCatalog(true);
+					break;
+				case SubmenuOptions.AddResource: // 2
+					AddResource();
+					break;
+				case SubmenuOptions.ModifyResource: // 3
+					ModifyResource();
+					break;
+				case SubmenuOptions.LoadFile: // 6
+					LoadFile();
+					break;
+				case SubmenuOptions.SaveFile: // 7
+					SaveFile();
+					break;
+				case SubmenuOptions.GoBack: // 4
+					System.Console.WriteLine("Returning to main menu.");
+					System.Console.WriteLine();
+					return;
+				default:
+					throw new Exception("Something went wrong.");
+			}
+			Pause();
+			_selectedSubmenuOption = 0;
+		}
+	}
 	private void SaveFile()
 	{
 		if (_user == null)
@@ -132,7 +180,7 @@ class LibraryManagementSystem
 			System.Console.WriteLine();
 			return;
 		}
-		
+
 		if (_resources.Count == 0)
 		{
 			Console.Clear();
@@ -158,7 +206,38 @@ class LibraryManagementSystem
 
 	private void LoadFile()
 	{
-		throw new NotImplementedException();
+		Console.Clear();
+		System.Console.WriteLine(">> LOADING INFORMATION FROM FILE <<");
+		System.Console.WriteLine();
+		_fileName = GetUserInput("What is the filename?");
+		System.Console.WriteLine();
+		var content = _fileManager.Load(_fileName);
+		content = content.Skip(1).ToArray();
+
+		foreach (string line in content)
+		{
+			string[] parts = line.Split(":");
+			string header = parts[0];
+			string body = parts[1];
+			Resource resource = new();
+
+			string[] bodyContent = body.Split(",");
+
+			switch ((ResourceType)Enum.Parse(typeof(ResourceType), header))
+			{
+				case ResourceType.Physical:
+					resource = new PhysicalResource(bodyContent);
+					break;
+				case ResourceType.Digital:
+					resource = new DigitalResource(bodyContent);
+					break;
+				default:
+					throw new Exception("Something went wrong.");
+			}
+			_resources.Add(resource);
+		}
+		System.Console.WriteLine("> File has been loaded to local memory.");
+		System.Console.WriteLine();
 	}
 
 	private void UserProfile()
@@ -377,54 +456,6 @@ class LibraryManagementSystem
 			return true;
 		}
 		return GetBooleanInput(text);
-	}
-
-	private void ResourceManager()
-	{
-		if (_user == null)
-		{
-			System.Console.WriteLine("> There is no user logged in.");
-			System.Console.WriteLine();
-			return;
-		}
-
-		var run = true;
-
-		while (run)
-		{
-			Console.Clear();
-			System.Console.WriteLine("Resource manager options:");
-
-			for (int i = 1; i < _submenuOptions.Count; i++)
-			{
-				System.Console.Write($"\t{i}");
-				System.Console.WriteLine($") {_submenuOptions[i]}");
-			}
-			System.Console.WriteLine();
-			_selectedSubmenuOption = SelectOption("Select an option from the menu:");
-
-			System.Console.Clear();
-			switch ((SubmenuOptions)_selectedSubmenuOption)
-			{
-				case SubmenuOptions.DisplayCatalog: // 1
-					DisplayCatalog(true);
-					break;
-				case SubmenuOptions.AddResource: // 2
-					AddResource();
-					break;
-				case SubmenuOptions.ModifyResource: // 3
-					ModifyResource();
-					break;
-				case SubmenuOptions.GoBack: // 4
-					System.Console.WriteLine("Returning to main menu.");
-					System.Console.WriteLine();
-					return;
-				default:
-					throw new Exception("Something went wrong.");
-			}
-			Pause();
-			_selectedSubmenuOption = 0;
-		}
 	}
 
 	private void ModifyResource()
