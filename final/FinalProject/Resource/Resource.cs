@@ -1,6 +1,6 @@
 class Resource
 {
-	private Guid _id;
+	protected Guid _id;
 	public Guid Id
 	{
 		get { return _id; }
@@ -43,12 +43,11 @@ class Resource
 		set { _resourceSubcategory = value; }
 	}
 
-	private bool _isAvailable;
-
-	public bool IsAvailable
+	protected string _isbn;
+	public string Isbn
 	{
-		get { return _isAvailable; }
-		set { _isAvailable = value; }
+		get { return _isbn; }
+		set { _isbn = value; }
 	}
 
 	public Resource(
@@ -64,11 +63,7 @@ class Resource
 		_resourceSubcategory = resourceSubcategory;
 		_title = title;
 		_author = author;
-	}
-
-	public void ToggleStatus()
-	{
-		_isAvailable = !_isAvailable;
+		_id = Guid.NewGuid();
 	}
 
 	public override string ToString()
@@ -79,5 +74,17 @@ class Resource
 		var line4 = $"- Category: {_resourceCategory}\n";
 		var line5 = $"- Subcategory: {_resourceSubcategory}\n";
 		return line1 + line2 + line3 + line4 + line5;
+	}
+
+	// Method to create a deep copy
+	public virtual Resource DeepCopy()
+	{
+		return new Resource(
+		 this._resourceType,
+		 this._resourceCategory,
+		 this._resourceSubcategory,
+		 this._title,
+		 this._author
+		);
 	}
 }

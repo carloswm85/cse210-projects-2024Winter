@@ -8,7 +8,22 @@ class Staff : User
 		set { _staffType = value; }
 	}
 
-	public Staff(string username, string firstName, string lastName, string email, string password, StaffType staffType) : base(username, firstName, lastName, email, password)
+	public Staff(
+		string username,
+		string firstName,
+		string lastName,
+		string email,
+		string password,
+		UserType userType,
+		StaffType staffType)
+		: base(
+		username,
+		firstName,
+		lastName,
+		email,
+		password,
+		userType
+		)
 	{
 		_staffType = staffType;
 	}
@@ -16,6 +31,7 @@ class Staff : User
 	public override string ToString()
 	{
 		var dataFromBase = base.ToString();
-		return $"{dataFromBase}- Staff type: {_staffType}\n";
+		var line1 = $"- Staff type: {_staffType}\n";
+		return $"{dataFromBase}{line1}";
 	}
 }

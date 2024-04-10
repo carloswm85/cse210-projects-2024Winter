@@ -30,6 +30,12 @@ class User
 		set { _password = value; }
 	}
 
+	private UserType _userType;
+	public UserType UserType {
+		get { return _userType; }
+		set { _userType = value; }
+	}
+
 	protected DateTime _registrationDate;
 	public DateTime RegistrationDate
 	{
@@ -43,7 +49,14 @@ class User
 		set { _isLoggedIn = value; }
 	}
 
-	public User(string username, string firstName, string lastName, string email, string password)
+	public User(
+		string username,
+		string firstName,
+		string lastName,
+		string email,
+		string password,
+		UserType userType
+		)
 	{
 		_username = username;
 		_firstName = firstName;
@@ -52,6 +65,7 @@ class User
 		_password = password;
 		_registrationDate = DateTime.Now;
 		_isLoggedIn = false;
+		_userType = userType;
 	}
 
 	public override string ToString()
@@ -64,6 +78,7 @@ class User
 		var line3 = $"- Registration date: {formattedDate}\n";
 		var passwordSet = _password == "" ? "NO" : "YES";
 		var line4 = $"- Password is set: {passwordSet}\n";
-		return line0 + line1 + line2 + line3 + line4;
+		var line5 = $"- User type: {_userType}\n";
+		return line0 + line1 + line2 + line3 + line4 + line5;
 	}
 }

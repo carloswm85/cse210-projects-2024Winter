@@ -23,15 +23,30 @@ class Member : User
 		set { _dueFine = value; }
 	}
 
-	public Member(string username, string firstName, string lastName, string email, string password, MemberType MemberType) : base(username, firstName, lastName, email, password)
+	public Member(
+		string username,
+		string firstName,
+		string lastName,
+		string email,
+		string password,
+		UserType userType,
+		MemberType memberType)
+		: base(
+			username,
+			firstName,
+			lastName,
+			email,
+			password,
+			userType
+			)
 	{
-		_memberType = MemberType;
+		_memberType = memberType;
 	}
 
 	public override string ToString()
 	{
 		var dataFromBase = base.ToString();
-		var line1 = "- Member type: {_memberType}\n";
+		var line1 = $"- Member type: {_memberType}\n";
 		return $"{dataFromBase}{line1}";
 	}
 }

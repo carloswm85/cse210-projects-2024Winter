@@ -1,11 +1,5 @@
 class PhysicalResource : Resource
 {
-	private string _isbn;
-	public string Isbn {
-		get { return _isbn; }
-		set { _isbn = value; }
-	}
-
 	private DateTime _dueDate;
 	public DateTime DueDate {
 		get { return _dueDate; }
@@ -44,6 +38,9 @@ class PhysicalResource : Resource
 			author)
 	{
 		_isbn = "NN";
+		_isReserved = false;
+		_isReturned = false;
+		_isRenewed = false;
 	}
 
 	public override string ToString()
@@ -52,5 +49,22 @@ class PhysicalResource : Resource
 		var line1 = $"- ISBN: {_isbn}\n";
 		var line2 = $"- Reserved/Returned/Renewed: {_isReserved}/{_isReturned}/{_isRenewed}";
 		return $"{dataFromBase}{line1}{line2}";
+	}
+
+	// Method to create a deep copy
+	public override PhysicalResource DeepCopy()
+	{
+		return new PhysicalResource(
+		 this.ResourceType,
+		 this.ResourceCategory,
+		 this.ResourceSubcategory,
+		 this.Title,
+		 this.Author
+		) {
+			_isbn = this._isbn,
+			_isReserved = this._isReserved,
+			_isReturned = this._isReturned,
+			_isRenewed = this._isRenewed,
+		};
 	}
 }
