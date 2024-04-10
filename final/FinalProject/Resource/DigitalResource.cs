@@ -60,4 +60,10 @@ class DigitalResource : Resource
 			_isPaid = this._isPaid,
 		};
 	}
+
+	public override string ToFile()
+	{
+		string baseInformation = base.ToFile();
+		return $"{baseInformation},{_isOnline},{_isOpensource},{_isPaid}";
+	}
 }

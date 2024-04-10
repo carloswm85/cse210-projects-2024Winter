@@ -5,7 +5,8 @@ class Program
     static void Main(string[] args)
     {
         // Console.WriteLine("Hello FinalProject World!");
-        var library = new LibraryManagementSystem("Local Library");
+        var fileManager = new FileManager();
+        var library = new LibraryManagementSystem("Local Library", fileManager);
         library.Run();
 
         while(library.IsRunning) {

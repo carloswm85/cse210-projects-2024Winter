@@ -26,17 +26,21 @@ class LibraryManagementSystem
 
 	private User _user;
 	private List<Resource> _resources;
+    private string _fileName;
 
-	public LibraryManagementSystem(string libraryName)
+    public LibraryManagementSystem(string libraryName, FileManager fileManager)
 	{
 		_name = libraryName;
+		_fileManager = fileManager;
 		_menuOptions = new List<string> {
 			"0 INDEX IS NULL",
 			"Log in",
 			"Log out",
 			"Register new user",
 			"Search users",
-			"Resource manager (books, databases, etc.)",
+			"Resource manager (physical and digital)",
+			"Load from file",
+			"Save to file",
 			"Your profile information",
 			"Quit program",
 		};
@@ -101,10 +105,16 @@ class LibraryManagementSystem
 			case MenuOptions.ResourceManager: // 5
 				ResourceManager();
 				break;
-			case MenuOptions.UserProfile: // 6
+			case MenuOptions.LoadFile: // 6
+				LoadFile();
+				break;
+			case MenuOptions.SaveFile: // 7
+				SaveFile();
+				break;
+			case MenuOptions.UserProfile: // 8
 				UserProfile();
 				break;
-			case MenuOptions.QuitProgram: // 7
+			case MenuOptions.QuitProgram: // 9
 				QuitProgram();
 				break;
 			default:
@@ -114,17 +124,54 @@ class LibraryManagementSystem
 		_selectedMenuOption = 0;
 	}
 
+	private void SaveFile()
+	{
+		if (_user == null)
+		{
+			System.Console.WriteLine("> There is no user logged in.");
+			System.Console.WriteLine();
+			return;
+		}
+		
+		if (_resources.Count == 0)
+		{
+			Console.Clear();
+			System.Console.WriteLine("> There is no information to save.");
+			Pause();
+			return;
+		}
+
+		System.Console.Write("What is the filename for the file? ");
+		_fileName = Console.ReadLine();
+		var resourcesString = new List<string>();
+
+		foreach (Resource resource in _resources)
+		{
+			resourcesString.Add(resource.ToFile());
+		}
+
+		_fileManager.Save(_fileName, resourcesString, "-- RESOURCES --");
+		System.Console.WriteLine();
+		System.Console.WriteLine("> Information has been saved.");
+		System.Console.WriteLine();
+	}
+
+	private void LoadFile()
+	{
+		throw new NotImplementedException();
+	}
+
 	private void UserProfile()
 	{
 		System.Console.WriteLine(">> PROFILE INFORMATION <<\n");
 
-		if (_user != null)
+		if (_user == null)
 		{
-			System.Console.WriteLine(_user.ToString());
+			System.Console.WriteLine("> There is no user logged in.");
+			System.Console.WriteLine();
 			return;
 		}
-		System.Console.WriteLine("> There is no user logged in.");
-		System.Console.WriteLine();
+			System.Console.WriteLine(_user.ToString());
 	}
 
 	public void LogIn()

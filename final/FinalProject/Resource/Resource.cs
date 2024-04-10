@@ -28,7 +28,6 @@ class Resource
 		set { _resourceType = value; }
 	}
 
-
 	private ResourceCategory _resourceCategory;
 	public ResourceCategory ResourceCategory
 	{
@@ -86,5 +85,13 @@ class Resource
 		 this._title,
 		 this._author
 		);
+	}
+
+	public virtual string ToFile()
+	{
+		var resourceType = Enum.GetName(typeof(ResourceType), _resourceType);
+		var categoryType = Enum.GetName(typeof(ResourceCategory), _resourceCategory);
+		var subcategoryType = Enum.GetName(typeof(ResourceSubcategory), _resourceSubcategory);
+		return $"{_id},{_title},{_author},{resourceType},{categoryType},{subcategoryType}";
 	}
 }

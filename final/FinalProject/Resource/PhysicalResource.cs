@@ -67,4 +67,10 @@ class PhysicalResource : Resource
 			_isRenewed = this._isRenewed,
 		};
 	}
+
+	public override string ToFile()
+	{
+		string baseInformation = base.ToFile();
+		return $"{baseInformation},{_isbn},{_isReserved},{_isRenewed},{_isReturned}";
+	}
 }
