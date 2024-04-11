@@ -1,7 +1,7 @@
 - [Project Instructions](#project-instructions)
 - [How It Works](#how-it-works)
 - [Project Notes](#project-notes)
-	- [Some Ideas](#some-ideas)
+  - [Some Ideas](#some-ideas)
 
 ---
 
@@ -21,6 +21,9 @@
   - Display catalog of resources.
   - Add new items, modify, delete.
   - Load and save items using `FileManager`
+- There is a test file, with usable data.
+  - Delete existing in memory items,
+  - then load data from `test.txt` file.
 
 ---
 
