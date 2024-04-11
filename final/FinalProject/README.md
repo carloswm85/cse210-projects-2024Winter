@@ -24,6 +24,9 @@
 - There is a test file, with usable data.
   - Delete existing in memory items,
   - then load data from `test.txt` file.
+- Special mention to:
+  - Overriding in `User` derived classes.
+  - Overriding in `Resource` derived classes.
 
 ---
 
